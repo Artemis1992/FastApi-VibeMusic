@@ -24,33 +24,43 @@ cd infrastructure/k8s
 
 ---
 
-## 🐍 Python & Poetry
+## 🐍 Python & venv
 
-### Установка Poetry (Windows):
+### Создание виртуального окружения:
 ```powershell
-(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | python -
+# Создать venv
+python -m venv venv
+
+# Активировать venv (Windows PowerShell)
+.\venv\Scripts\Activate.ps1
+
+# Активировать venv (Windows CMD)
+venv\Scripts\activate.bat
+
+# Деактивировать venv
+deactivate
 ```
 
 ### Работа с зависимостями:
 ```bash
-# Инициализация нового сервиса
-poetry init
-
-# Установка зависимостей
-poetry install
+# Установка зависимостей из requirements.txt
+pip install -r requirements.txt
 
 # Добавить пакет
-poetry add fastapi sqlalchemy
+pip install fastapi sqlalchemy
 
-# Добавить dev-зависимость
-poetry add --group dev pytest
+# Добавить dev-зависимость (вручную в requirements-dev.txt)
+pip install pytest
 
-# Активация виртуального окружения
-poetry shell
+# Обновить все пакеты до последних версий
+pip install --upgrade -r requirements.txt
 
-# Запуск команды в venv
-poetry run python main.py
-poetry run uvicorn app.main:app --reload
+# Сохранить текущие зависимости в файл
+pip freeze > requirements.txt
+
+# Запуск команды
+python main.py
+uvicorn app.main:app --reload
 ```
 
 ---
@@ -329,17 +339,20 @@ pytest --cov=app --cov-report=html tests/
 
 ### Локально (без Docker):
 ```bash
+# Активировать venv сначала
+.\venv\Scripts\Activate.ps1
+
 # Auth Service
 cd apps/auth-service
-poetry run uvicorn app.main:app --reload --port 8001
+uvicorn app.main:app --reload --port 8001
 
 # Content Service
 cd apps/content-service
-poetry run uvicorn app.main:app --reload --port 8002
+uvicorn app.main:app --reload --port 8002
 
 # Gateway Service
 cd apps/gateway-service
-poetry run uvicorn app.main:app --reload --port 8000
+uvicorn app.main:app --reload --port 8000
 ```
 
 ### Через Docker Compose:
@@ -559,11 +572,14 @@ net stop com.docker.service
 net start com.docker.service
 ```
 
-### Poetry проблемы:
+### venv проблемы:
 ```bash
 # Пересоздать venv
-poetry env remove python
-poetry install
+deactivate
+rmdir /s /q venv
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+pip install -r requirements.txt
 ```
 
 ---
@@ -573,7 +589,8 @@ poetry install
 - [FastAPI Docs](https://fastapi.tiangolo.com/)
 - [Docker Docs](https://docs.docker.com/)
 - [Kubernetes Docs](https://kubernetes.io/docs/)
-- [Poetry Docs](https://python-poetry.org/docs/)
+- [pip Docs](https://pip.pypa.io/en/stable/)
+- [venv Docs](https://docs.python.org/3/library/venv.html)
 
 ---
 
