@@ -65,7 +65,7 @@
 
 ### Backend
 - **Framework:** FastAPI
-- **Python:** 3.11+
+- **Python:** 3.13+
 - **ORM:** SQLAlchemy 2.0
 - **Validation:** Pydantic v2
 
