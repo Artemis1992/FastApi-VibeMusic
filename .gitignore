@@ -164,6 +164,9 @@ secrets/
 *.crt
 *.cer
 
+# Internal documentation (private)
+docs/
+
 # Node.js (для Frontend Service)
 node_modules/
 npm-debug.log*
